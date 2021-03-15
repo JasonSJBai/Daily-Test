@@ -2,18 +2,38 @@
     登录的路由组件
 */
 import React, { Component } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./login.less";
 import logo from "./images/logo.png";
+import { reqLogin } from "../../api";
+import memoryUtils from "../../utils/memoryUtils";
+import storageUtils from "../../utils/storageUtils";
+import { Redirect } from "react-router-dom";
 
 export default class Login extends Component {
-  onFinish = (values) => {
-    console.log("提交的信息为:", values);
+  onFinish = async (values) => {
+    // console.log("提交的信息为:", values);
+    const result = await reqLogin(values.username, values.password);
+    // console.log("成功", result);
+    if (result.status === 0) {
+      //登录成功
+      //提示登录成功
+      message.success("登录成功了！");
+      //将user信息保存在内存工具中
+      const user = result.data;
+      memoryUtils.user = user;
+      //保存到localstorage中
+      storageUtils.saveUser(user);
+      //跳转到管理界面(不需要再回退回来到登录)
+      this.props.history.replace("/");
+    } else {
+      //登录失败
+      message.error(result.msg);
+    }
   };
 
   validatePwd = (rule, value) => {
-    console.log(rule, value, /^[a-zA-Z0-9_]*$/.test(value));
     if (!value) {
       return Promise.reject("密码不能为空");
     } else if (value.length < 4) {
@@ -28,6 +48,12 @@ export default class Login extends Component {
   };
 
   render() {
+    //如果用户已经登陆了，跳转到管理界面
+    const user = memoryUtils.user;
+    if (user._id) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div className="login">
         <header className="login-header">
