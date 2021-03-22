@@ -90,6 +90,7 @@ export default class Login extends Component {
                   <UserOutlined style={{ color: "rgba(0, 0, 0, 0.25)" }} />
                 }
                 placeholder="用户名"
+                autoComplete="off"
               />
             </Form.Item>
 
@@ -111,6 +112,7 @@ export default class Login extends Component {
                 }
                 type="password"
                 placeholder="密码"
+                autoComplete="off"
               />
             </Form.Item>
 
