@@ -20,14 +20,11 @@ export const reqCategorys = (parentId) =>
   ajax("/manage/category/list", { parentId });
 
 //添加分类
-export const reqAddCategorys = (parentId, categoryName) => {
+export const reqAddCategorys = (parentId, categoryName) =>
   ajax("/manage/category/add", { parentId, categoryName }, "POST");
-};
-
 //更新分类
-export const reqUpdateCategorys = (categoryId, categoryName) => {
+export const reqUpdateCategorys = (categoryId, categoryName) =>
   ajax("/manage/category/update", { categoryId, categoryName }, "POST");
-};
 
 //获取天气
 export async function reqWeather() {
