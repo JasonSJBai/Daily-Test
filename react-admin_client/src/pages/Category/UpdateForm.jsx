@@ -25,7 +25,11 @@ export default class UpdateForm extends Component {
         onFinish={updateCategory}
         initialValues={{ categoryName: categoryName }}
       >
-        <Item label="分类名称" name="categoryName">
+        <Item
+          label="分类名称"
+          name="categoryName"
+          rules={[{ required: true, message: "分类名称不能为空" }]}
+        >
           <Input placeholder="请输入分类名称"></Input>
         </Item>
       </Form>

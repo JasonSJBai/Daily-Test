@@ -56,10 +56,10 @@ export default class Category extends Component {
   };
 
   //异步获取一级/二级分类列表显示
-  getCategorys = async () => {
+  getCategorys = async (parentId) => {
     this.setState({ loading: true });
 
-    const { parentId } = this.state;
+    parentId = parentId || this.state.parentId;
     const result = await reqCategorys(parentId);
 
     this.setState({ loading: false });
@@ -116,8 +116,26 @@ export default class Category extends Component {
   };
 
   //添加分类
-  addCategory = (values) => {
+  addCategory = async (values) => {
     console.log("addCategory,submit", values);
+    //隐藏确认框
+    this.setState({
+      showStatus: 0,
+    });
+
+    const parentId = values.parentId;
+    const categoryName = values.categoryName;
+
+    const result = await reqAddCategorys(parentId, categoryName);
+    if (result.status === 0) {
+      if (parentId === this.state.parentId) {
+        //添加的分类就是当前的分类列表
+        this.getCategorys();
+      } else if (parentId === "0") {
+        //在二级分类列表下添加一级分类项，需要重新获取一级分类项，但不需要显示
+        this.getCategorys("0");
+      }
+    }
   };
 
   //更新按钮的回调，显示更新的确认框
@@ -225,7 +243,11 @@ export default class Category extends Component {
           okButtonProps={{ htmlType: "submit", form: "AddForm" }}
           destroyOnClose
         >
-          <AddForm addCategory={this.addCategory} />
+          <AddForm
+            addCategory={this.addCategory}
+            categorys={categorys}
+            parentId={parentId}
+          />
         </Modal>
         <Modal
           title="修改分类"

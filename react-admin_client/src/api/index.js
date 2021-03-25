@@ -26,6 +26,24 @@ export const reqAddCategorys = (parentId, categoryName) =>
 export const reqUpdateCategorys = (categoryId, categoryName) =>
   ajax("/manage/category/update", { categoryId, categoryName }, "POST");
 
+//获取商品分页列表
+export const reqProducts = (pageNum, pageSize) =>
+  ajax("/manage/product/list", { pageNum, pageSize });
+
+//搜索商品分页列表(根据商品名称/商品描述)
+//searchType:搜索的类型，productName/productDesc
+export const reqSearchProducts = ({
+  pageNum,
+  pageSize,
+  searchName,
+  searchType,
+}) =>
+  ajax("/manage/product/search", {
+    pageNum,
+    pageSize,
+    [searchType]: searchName,
+  });
+
 //获取天气
 export async function reqWeather() {
   const ip = await getIpClient();
