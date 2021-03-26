@@ -44,6 +44,14 @@ export const reqSearchProducts = ({
     [searchType]: searchName,
   });
 
+//获取一个分类
+export const reqCategory = (categoryId) =>
+  ajax("/manage/category/info", { categoryId });
+
+//更新商品的上架/下架状态（1：上架 2：下架）
+export const reqUpdateStatus = (productId, status) =>
+  ajax("/manage/product/updateStatus", { productId, status }, "POST");
+
 //获取天气
 export async function reqWeather() {
   const ip = await getIpClient();
