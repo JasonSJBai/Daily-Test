@@ -4,7 +4,7 @@
 
 import React, { Component } from "react";
 import { Button, Card, List } from "antd";
-import { PlusOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 import "./product.less";
 import { reqCategory } from "../../api";

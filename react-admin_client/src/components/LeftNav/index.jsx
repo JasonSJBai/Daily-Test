@@ -39,7 +39,7 @@ class LeftNav extends Component {
       } else {
         //查找与当前请求路径匹配的子Item
         const cItem = item.children.find(
-          (cItem) => cItem.key === this.props.location.pathname
+          (cItem) => this.props.location.pathname.indexOf(cItem.key) === 0
         );
         //如果存在且不为空，说明当前item的子列表需要展开
         if (cItem) {
@@ -62,7 +62,11 @@ class LeftNav extends Component {
 
   render() {
     //得到当前请求的路由路径
-    const path = this.props.location.pathname;
+    let path = this.props.location.pathname;
+    if (path.indexOf("/product") === 0) {
+      //在商品管理部分，若路由转入其子路由中，路径也会改变且导航栏的选中效果也会丢失，此时需要将路径与其父组件匹配将其展开
+      path = "/product";
+    }
     const subMenuKeys = this.subMenuKeys;
     return (
       <div className="left-nav">

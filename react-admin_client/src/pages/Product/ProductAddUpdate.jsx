@@ -3,9 +3,31 @@
  */
 
 import React, { Component } from "react";
+import { Card, Form, Button } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+
+const Item = Form.Item;
 
 export default class ProductAddUpdate extends Component {
   render() {
-    return <div>ProductAddUpdate</div>;
+    const title = (
+      <div>
+        <Button
+          type="link"
+          onClick={() => this.props.history.goBack()}
+          icon={<ArrowLeftOutlined />}
+          size="large"
+        />
+        <span>新增/修改商品</span>
+      </div>
+    );
+
+    return (
+      <Card title={title}>
+        <Form>
+          <Item></Item>
+        </Form>
+      </Card>
+    );
   }
 }
